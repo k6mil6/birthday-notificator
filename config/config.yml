@@ -1,0 +1,7 @@
+env: "local"
+db:
+  postgres_dsn: "postgres://postgres:postgres@localhost:5442/birthday_notificator_db?sslmode=disable"
+  retries_number: 3
+  retry_cooldown: 10s
+http_port: 8080
+migrations_path: "./migrations"

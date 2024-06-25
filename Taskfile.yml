@@ -1,0 +1,21 @@
+version: "3"
+
+tasks:
+  migrate_down:
+    aliases:
+      - down
+    desc: "Rollback migrations"
+    cmds:
+      - migrate -path ./migrations -database postgres://postgres:postgres@localhost:5442/birthday_notificator_db?sslmode=disable down
+  migrate_up:
+    aliases:
+      - up
+    desc: "Apply migrations"
+    cmds:
+      - migrate -path ./migrations -database postgres://postgres:postgres@localhost:5442/birthday_notificator_db?sslmode=disable up
+  migrate_create:
+    aliases:
+      - create
+    desc: "Create migrations"
+    cmds:
+      - migrate create -dir ./migrations -ext sql -seq {{.NAME}}
