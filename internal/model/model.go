@@ -17,5 +17,5 @@ type Subscription struct {
 	ID                 uuid.UUID
 	UserID             uuid.UUID
 	SubscribedAtUserID uuid.UUID
-	NotificationTime   time.Time
+	NotificationDate   time.Time
 }

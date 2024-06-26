@@ -3,6 +3,7 @@ package jwt
 import (
 	"errors"
 	"github.com/golang-jwt/jwt/v5"
+	"github.com/k6mil6/birthday-notificator/internal/model"
 	"time"
 )
 
@@ -12,17 +13,18 @@ const (
 	KeyUserID key = iota
 )
 
-func NewToken(id int, duration time.Duration, secret string) (string, error) {
+func NewToken(user model.User, duration time.Duration, secret string) (string, error) {
 	token := jwt.New(jwt.SigningMethodHS256)
 
 	claims := token.Claims.(jwt.MapClaims)
-	claims["id"] = id
+	claims["id"] = user.ID
+	claims["email"] = user.Email
 	claims["exp"] = time.Now().Add(duration).Unix()
 
 	return token.SignedString([]byte(secret))
 }
 
-func GetID(jwtToken string, secret string) (int, error) {
+func GetUserID(jwtToken string, secret string) (int64, error) {
 	token, err := jwt.Parse(jwtToken, func(t *jwt.Token) (interface{}, error) {
 		if _, ok := t.Method.(*jwt.SigningMethodHMAC); !ok {
 			return nil, jwt.ErrSignatureInvalid
@@ -39,10 +41,10 @@ func GetID(jwtToken string, secret string) (int, error) {
 
 	claims := token.Claims.(jwt.MapClaims)
 
-	idFloat, ok := claims["id"].(float64)
+	idFloat, ok := claims["id"].(int64)
 	if !ok {
 		return 0, errors.New("ID claim is not a number")
 	}
 
-	return int(idFloat), nil
+	return idFloat, nil
 }

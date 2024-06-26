@@ -2,8 +2,10 @@ package users
 
 import (
 	"context"
+	"errors"
 	"github.com/google/uuid"
 	"github.com/jackc/pgx/v5"
+	"github.com/jackc/pgx/v5/pgconn"
 	"github.com/jackc/pgx/v5/pgxpool"
 	"github.com/k6mil6/birthday-notificator/internal/model"
 	"log/slog"
@@ -22,8 +24,8 @@ func NewStorage(db *pgxpool.Pool, log *slog.Logger) *Storage {
 	}
 }
 
-func (s *Storage) Create(ctx context.Context, user model.User) error {
-	op := "users.Create"
+func (s *Storage) Save(ctx context.Context, user *model.User) error {
+	op := "users.Save"
 
 	log := s.log.With(slog.String("op", op))
 
@@ -40,6 +42,12 @@ func (s *Storage) Create(ctx context.Context, user model.User) error {
 
 	_, err := s.db.Exec(ctx, query, args)
 	if err != nil {
+		var pgErr *pgconn.PgError
+		if errors.As(err, &pgErr) {
+			if pgErr.Code == "23505" {
+				return ErrUserAlreadyExists
+			}
+		}
 		log.Error("failed to create user", "error", err)
 
 		return err
@@ -50,7 +58,7 @@ func (s *Storage) Create(ctx context.Context, user model.User) error {
 	return nil
 }
 
-func (s *Storage) Get(ctx context.Context, id uuid.UUID) (model.User, error) {
+func (s *Storage) GetByID(ctx context.Context, id uuid.UUID) (model.User, error) {
 	op := "users.Get"
 
 	log := s.log.With(slog.String("op", op))
@@ -64,6 +72,34 @@ func (s *Storage) Get(ctx context.Context, id uuid.UUID) (model.User, error) {
 	var user dbUser
 	err := s.db.QueryRow(ctx, query, args).Scan(&user.ID, &user.Name, &user.Birthday, &user.Email)
 	if err != nil {
+		if errors.Is(err, pgx.ErrNoRows) {
+			return model.User{}, ErrUserNotFound
+		}
+		log.Error("failed to get user", "error", err)
+
+		return model.User{}, err
+	}
+
+	return model.User(user), nil
+}
+
+func (s *Storage) GetByEmail(ctx context.Context, email string) (model.User, error) {
+	op := "users.GetByEmail"
+
+	log := s.log.With(slog.String("op", op))
+
+	query := `SELECT id, name, birthday, email FROM users WHERE email = @email`
+
+	args := pgx.NamedArgs{
+		"email": email,
+	}
+
+	var user dbUser
+	err := s.db.QueryRow(ctx, query, args).Scan(&user.ID, &user.Name, &user.Birthday, &user.Email)
+	if err != nil {
+		if errors.Is(err, pgx.ErrNoRows) {
+			return model.User{}, ErrUserNotFound
+		}
 		log.Error("failed to get user", "error", err)
 
 		return model.User{}, err
@@ -98,6 +134,34 @@ func (s *Storage) GetAll(ctx context.Context) ([]model.User, error) {
 		users = append(users, model.User(user))
 	}
 	return users, nil
+}
+
+func (s *Storage) UpdateUserEmail(ctx context.Context, id uuid.UUID, email string) error {
+	op := "users.UpdateUserEmail"
+
+	log := s.log.With(slog.String("op", op))
+
+	query := `UPDATE users SET email = @email WHERE id = @id`
+
+	args := pgx.NamedArgs{
+		"id":    id,
+		"email": email,
+	}
+
+	_, err := s.db.Exec(ctx, query, args)
+	if err != nil {
+		var pgErr *pgconn.PgError
+		if errors.As(err, &pgErr) {
+			if pgErr.Code == "23505" {
+				return ErrEmailAlreadyExists
+			}
+		}
+		log.Error("failed to update user email", "error", err)
+
+		return err
+	}
+
+	return nil
 }
 
 type dbUser struct {
