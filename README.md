@@ -14,7 +14,7 @@ git pull https://github.com/k6mil6/film-bot.git
 go test ./...
 ```
 3. для запуска проекта необходимо иметь установленный [docker(docker-compose)](https://www.docker.com/products/docker-desktop/)
-4. при необходимости настроить http порт в ./config/config.yaml
+4. при необходимости настроить http порт в ./config/config.yaml и в docker-compose.yml
 5. поднять проект командной
 ```
 docker-compose up -d
