@@ -137,6 +137,9 @@ func (s *Storage) GetAllForUser(ctx context.Context, userID uuid.UUID) ([]model.
 
 		err = rows.Scan(&subscription.ID, &subscription.UserID, &subscription.SubscribedAtUserID, &subscription.NotificationDate)
 		if err != nil {
+			if errors.Is(err, pgx.ErrNoRows) {
+				return nil, ErrSubscriptionNotFound
+			}
 			log.Error("failed to get subscription", "error", err)
 
 			return nil, err

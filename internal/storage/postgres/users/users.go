@@ -88,14 +88,14 @@ func (s *Storage) GetByEmail(ctx context.Context, email string) (model.User, err
 
 	log := s.log.With(slog.String("op", op))
 
-	query := `SELECT id, name, birthday, email FROM users WHERE email = @email`
+	query := `SELECT id, name, birthday, email, password_hash FROM users WHERE email = @email`
 
 	args := pgx.NamedArgs{
 		"email": email,
 	}
 
 	var user dbUser
-	err := s.db.QueryRow(ctx, query, args).Scan(&user.ID, &user.Name, &user.Birthday, &user.Email)
+	err := s.db.QueryRow(ctx, query, args).Scan(&user.ID, &user.Name, &user.Birthday, &user.Email, &user.PasswordHash)
 	if err != nil {
 		if errors.Is(err, pgx.ErrNoRows) {
 			return model.User{}, ErrUserNotFound

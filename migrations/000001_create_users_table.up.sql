@@ -3,5 +3,5 @@ CREATE TABLE IF NOT EXISTS users (
     name        VARCHAR(255) NOT NULL,
     birthday    DATE         NOT NULL,
     email       VARCHAR(255) NOT NULL UNIQUE,
-    password_hash VARCHAR(255) NOT NULL
+    password_hash TEXT NOT NULL
 );

@@ -3,6 +3,7 @@ package jwt
 import (
 	"errors"
 	"github.com/golang-jwt/jwt/v5"
+	"github.com/google/uuid"
 	"github.com/k6mil6/birthday-notificator/internal/model"
 	"time"
 )
@@ -24,7 +25,7 @@ func NewToken(user model.User, duration time.Duration, secret string) (string, e
 	return token.SignedString([]byte(secret))
 }
 
-func GetUserID(jwtToken string, secret string) (int64, error) {
+func GetUserID(jwtToken, secret string) (uuid.UUID, error) {
 	token, err := jwt.Parse(jwtToken, func(t *jwt.Token) (interface{}, error) {
 		if _, ok := t.Method.(*jwt.SigningMethodHMAC); !ok {
 			return nil, jwt.ErrSignatureInvalid
@@ -32,19 +33,24 @@ func GetUserID(jwtToken string, secret string) (int64, error) {
 		return []byte(secret), nil
 	})
 	if err != nil {
-		return 0, err
+		return uuid.Nil, err
 	}
 
 	if !token.Valid {
-		return 0, errors.New("token is invalid")
+		return uuid.Nil, errors.New("token is invalid")
 	}
 
 	claims := token.Claims.(jwt.MapClaims)
 
-	idFloat, ok := claims["id"].(int64)
+	idRaw, ok := claims["id"].(string)
 	if !ok {
-		return 0, errors.New("ID claim is not a number")
+		return uuid.Nil, errors.New("token is invalid")
 	}
 
-	return idFloat, nil
+	id, err := uuid.Parse(idRaw)
+	if err != nil {
+		return uuid.Nil, err
+	}
+
+	return id, nil
 }

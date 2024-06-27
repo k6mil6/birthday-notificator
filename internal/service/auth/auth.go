@@ -63,12 +63,12 @@ func (a *Service) Login(ctx context.Context, login, password string) (string, er
 			return "", ErrInvalidCredentials
 		}
 
-		log.Error("failed to get user by login", "error", err)
+		log.Error("failed to get user by login", "error", err.Error())
 		return "", err
 	}
 
 	if err := bcrypt.CompareHashAndPassword(user.PasswordHash, []byte(password)); err != nil {
-		a.log.Info("invalid credentials", "err", err)
+		a.log.Info("invalid credentials", "err", err.Error())
 
 		return "", ErrInvalidCredentials
 	}
@@ -77,7 +77,7 @@ func (a *Service) Login(ctx context.Context, login, password string) (string, er
 
 	token, err := jwt.NewToken(user, a.tokenTTL, a.secret)
 	if err != nil {
-		log.Error("failed to create token", err)
+		log.Error("failed to create token", "error", err.Error())
 		return "", fmt.Errorf("%s: %w", op, err)
 	}
 

@@ -7,6 +7,7 @@ import (
 	"github.com/k6mil6/birthday-notificator/internal/lib/birthday"
 	"github.com/k6mil6/birthday-notificator/internal/model"
 	subscriptionsstorage "github.com/k6mil6/birthday-notificator/internal/storage/postgres/subscriptions"
+	usersstorage "github.com/k6mil6/birthday-notificator/internal/storage/postgres/users"
 	"log/slog"
 	"time"
 )
@@ -95,6 +96,10 @@ func (s *Service) Subscribe(
 
 	err = s.subscriptionSaver.Create(ctx, subscription)
 	if err != nil {
+		if errors.Is(err, subscriptionsstorage.ErrSubscriptionAlreadyExists) {
+			log.Info("user is already subscribed", "user_id", userID, "subscribed_at_user_id", subscribedAtUserID)
+			return uuid.Nil, ErrSubscriptionAlreadyExists
+		}
 		log.Error("failed to create subscription", "error", err)
 		return uuid.Nil, err
 	}
@@ -153,6 +158,10 @@ func (s *Service) GetAllSubscriptions(ctx context.Context, userID uuid.UUID) ([]
 
 	subscriptions, err := s.subscriptionProvider.GetAllForUser(ctx, userID)
 	if err != nil {
+		if errors.Is(err, subscriptionsstorage.ErrSubscriptionNotFound) {
+			log.Info("user is not subscribed", "user_id", userID)
+			return nil, ErrUserNotSubscribed
+		}
 		log.Error("failed to get subscriptions", "error", err)
 		return nil, err
 	}
@@ -223,6 +232,10 @@ func (s *Service) UpdateUserEmail(ctx context.Context, userID uuid.UUID, email s
 
 	err := s.userSaver.UpdateUserEmail(ctx, userID, email)
 	if err != nil {
+		if errors.Is(err, usersstorage.ErrEmailAlreadyExists) {
+			log.Info("user email already exists", "user_id", userID, "email", email)
+			return ErrEmailAlreadyExists
+		}
 		log.Error("failed to update user", "error", err)
 		return err
 	}
@@ -252,4 +265,31 @@ func (s *Service) GetAllUsers(ctx context.Context) ([]model.User, error) {
 	log.Info("got all users")
 
 	return users, nil
+}
+
+func (s *Service) IsUserExists(ctx context.Context, userID uuid.UUID) (bool, error) {
+	op := "interaction.IsUserExists"
+
+	log := s.log.With(slog.String("op", op))
+
+	log.Info(
+		"attempting to check if user exists",
+		"user_id", userID,
+	)
+
+	_, err := s.userProvider.GetByID(ctx, userID)
+	if err != nil {
+		if errors.Is(err, usersstorage.ErrUserNotFound) {
+			return false, nil
+		}
+		log.Error("failed to check if user exists", "error", err.Error())
+		return false, err
+	}
+
+	log.Info(
+		"user exists",
+		"user_id", userID,
+	)
+
+	return true, nil
 }

@@ -12,12 +12,18 @@ type Config struct {
 	DB             DBConfig `yml:"db" env-required:"true"`
 	HTTPPort       int      `yml:"http_port" env-default:"8080"`
 	MigrationsPath string   `yml:"migrations_path" env-default:"./migrations"`
+	JWT            JWT      `yml:"jwt" env-required:"true"`
 }
 
 type DBConfig struct {
 	PostgresDSN   string        `yml:"postgres_dsn" env-default:"postgres://postgres:postgres@localhost:5442/birthday_notificator_db?sslmode=disable"`
 	RetriesNumber int           `yml:"retries_number" env-default:"3"`
 	RetryCooldown time.Duration `yml:"retry_cooldown" env-default:"10s"`
+}
+
+type JWT struct {
+	Secret   string        `yml:"secret" env-required:"true"`
+	TokenTTL time.Duration `yml:"token_ttl" env-default:"1h"`
 }
 
 func MustLoad() *Config {
@@ -57,7 +63,7 @@ func fetchConfigPath() string {
 	}
 
 	if res == "" {
-		res = "./config/config.yaml" //default
+		res = "./config/config.yml" //default
 	}
 
 	return res
