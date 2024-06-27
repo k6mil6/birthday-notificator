@@ -1,0 +1,16 @@
+env: "local"
+db:
+  postgres_dsn: "postgres://postgres:postgres@localhost:5452/birthday_notificator_db?sslmode=disable"
+  retries_number: 3
+  retry_cooldown: 10s
+jwt:
+  secret: "secret"
+  token_ttl: 1h
+email:
+  sender_address: "kamilion843@outlook.com"
+  sender_password: "hnvbgsuaclvawxls"
+  smtp_address: "smtp-mail.outlook.com"
+  smtp_port: 587
+http_port: 8080
+migrations_path: "./migrations"
+scan_interval: 30s # in real conditions may well be 1h or more

@@ -1,0 +1,9 @@
+POST /api/v1/user/unsubscribe HTTP/1.1
+Host: localhost:8080
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RAbWFpbC5ydSIsImV4cCI6MTcxOTQyODc1MCwiaWQiOiIzZTVjM2VkNi00Y2IzLTQ4YzQtYjA1Ny0zZjVmNDNkMjlmMzUifQ.qWiy7sei4ev-R6cZ-GoQzLLsuLKmRU-u1QLO-P0QrMk
+Content-Length: 59
+
+{
+  "user_id": "5a680dd1-1122-4c7e-ac4b-521bfd5ba119"
+}

@@ -1,0 +1,10 @@
+POST /api/v1/user/login HTTP/1.1
+Host: localhost:8080
+Content-Type: application/json
+Content-Length: 64
+
+{
+  "email": "kamil_6@vk.com",
+  "password": "password"
+}
+

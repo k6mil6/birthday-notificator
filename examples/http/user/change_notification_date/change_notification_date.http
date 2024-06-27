@@ -1,0 +1,13 @@
+POST /api/v1/user/change/notification_date HTTP/1.1
+Host: localhost:8080
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RAbWFpbC5ydSIsImV4cCI6MTcxOTQzMjQwNiwiaWQiOiIzZTVjM2VkNi00Y2IzLTQ4YzQtYjA1Ny0zZjVmNDNkMjlmMzUifQ.efZCCWekGsIbNKPxVjw497D0hnjWuowTvhKilpmOkdA
+Content-Length: 153
+
+{
+  "subscription_id": "b73de42a-43bc-4e83-8117-32516a10d44e",
+  "notification_offset": {
+    "unit": "minute",
+    "value": 40
+  }
+}

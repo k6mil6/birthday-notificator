@@ -14,7 +14,7 @@ const (
 	KeyUserID key = iota
 )
 
-func NewToken(user model.User, duration time.Duration, secret string) (string, error) {
+func NewToken(user *model.User, duration time.Duration, secret string) (string, error) {
 	token := jwt.New(jwt.SigningMethodHS256)
 
 	claims := token.Claims.(jwt.MapClaims)

@@ -151,6 +151,40 @@ func (s *Storage) GetAllForUser(ctx context.Context, userID uuid.UUID) ([]model.
 	return subscriptions, nil
 }
 
+func (s *Storage) GetAll(ctx context.Context) ([]model.Subscription, error) {
+	op := "subscriptions.GetAll"
+
+	log := s.log.With(slog.String("op", op))
+
+	query := `SELECT id, user_id, subscribed_at_user_id, notification_date FROM subscriptions`
+
+	rows, err := s.db.Query(ctx, query)
+	if err != nil {
+		log.Error("failed to get subscriptions", "error", err)
+		return nil, err
+	}
+	defer rows.Close()
+
+	subscriptions := make([]model.Subscription, 0)
+	for rows.Next() {
+		var subscription dbSubscription
+
+		err = rows.Scan(&subscription.ID, &subscription.UserID, &subscription.SubscribedAtUserID, &subscription.NotificationDate)
+		if err != nil {
+			if errors.Is(err, pgx.ErrNoRows) {
+				return nil, ErrSubscriptionNotFound
+			}
+			log.Error("failed to get subscription", "error", err)
+
+			return nil, err
+		}
+
+		subscriptions = append(subscriptions, model.Subscription(subscription))
+	}
+
+	return subscriptions, nil
+}
+
 func (s *Storage) GetByID(ctx context.Context, id uuid.UUID) (model.Subscription, error) {
 	op := "subscriptions.GetByID"
 
@@ -164,7 +198,14 @@ func (s *Storage) GetByID(ctx context.Context, id uuid.UUID) (model.Subscription
 	}
 
 	var subscription dbSubscription
-	err := s.db.QueryRow(ctx, query, args).Scan(&subscription.ID, &subscription.UserID, &subscription.SubscribedAtUserID, &subscription.NotificationDate)
+	row := s.db.QueryRow(ctx, query, args)
+
+	err := row.Scan(
+		&subscription.ID,
+		&subscription.UserID,
+		&subscription.SubscribedAtUserID,
+		&subscription.NotificationDate,
+	)
 	if err != nil {
 		if errors.Is(err, pgx.ErrNoRows) {
 			return model.Subscription{}, ErrSubscriptionNotFound

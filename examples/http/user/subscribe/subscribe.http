@@ -1,0 +1,13 @@
+POST /api/v1/user/subscribe HTTP/1.1
+Host: localhost:8080
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImthbWlsXzZAdmsuY29tIiwiZXhwIjoxNzE5NDk4NTk5LCJpZCI6IjEyNWFjMDc1LWNiMGQtNDQ5Ny1iODk2LTA3MGFjMTcxZTNlMSJ9.LedZ3VQ40otiuaMb3m660EZtn6uYiZypRNoMIIM4ayg
+Content-Length: 142
+
+{
+  "user_id": "d5f80a76-ada2-401a-a9df-29702d492e0a",
+  "notification_offset": {
+    "unit": "hour",
+    "value": 7
+  }
+}

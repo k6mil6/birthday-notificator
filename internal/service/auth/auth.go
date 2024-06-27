@@ -75,7 +75,7 @@ func (a *Service) Login(ctx context.Context, login, password string) (string, er
 
 	log.Info("user logged in")
 
-	token, err := jwt.NewToken(user, a.tokenTTL, a.secret)
+	token, err := jwt.NewToken(&user, a.tokenTTL, a.secret)
 	if err != nil {
 		log.Error("failed to create token", "error", err.Error())
 		return "", fmt.Errorf("%s: %w", op, err)

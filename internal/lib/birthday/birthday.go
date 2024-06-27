@@ -4,7 +4,7 @@ import "time"
 
 func CalculateNextBirthday(birthday time.Time) time.Time {
 	now := time.Now()
-	thisYearBirthday := time.Date(now.Year(), birthday.Month(), birthday.Day(), 0, 0, 0, 0, time.Local)
+	thisYearBirthday := time.Date(now.Year(), birthday.Month(), birthday.Day(), 0, 0, 0, 0, time.Local).UTC()
 	if now.Before(thisYearBirthday) {
 		return thisYearBirthday
 	}

@@ -1,8 +1,8 @@
 package email
 
 import (
+	"gopkg.in/gomail.v2"
 	"net/mail"
-	"net/smtp"
 )
 
 func IsValidEmail(email string) bool {
@@ -11,22 +11,33 @@ func IsValidEmail(email string) bool {
 }
 
 type Sender struct {
-	emailAddress string
-	auth         smtp.Auth
-	smtpAddress  string
+	emailAddress  string
+	emailPassword string
+	smtpAddress   string
+	smtpPort      int
 }
 
-func NewSender(emailAddress, emailPassword, smtpAddress string) *Sender {
-	auth := smtp.PlainAuth("", emailAddress, emailPassword, smtpAddress)
+func NewSender(emailAddress, emailPassword, smtpAddress string, smtpPort int) *Sender {
 	return &Sender{
-		emailAddress: emailAddress,
-		auth:         auth,
-		smtpAddress:  smtpAddress,
+		emailAddress:  emailAddress,
+		emailPassword: emailPassword,
+		smtpAddress:   smtpAddress,
+		smtpPort:      smtpPort,
 	}
 }
 
-func (s *Sender) Send(email string, subject string, body string) error {
-	err := smtp.SendMail(s.smtpAddress, s.auth, s.emailAddress, []string{email}, []byte(subject+"\r\n"+body))
+func (s *Sender) Send(email, subject, body string) error {
+	m := gomail.NewMessage()
+	m.SetHeader("From", s.emailAddress)
+	m.SetHeader("To", email)
+	m.SetHeader("Subject", subject)
+	m.SetBody("text/plain", body)
 
-	return err
+	d := gomail.NewDialer(s.smtpAddress, s.smtpPort, s.emailAddress, s.emailPassword)
+
+	if err := d.DialAndSend(m); err != nil {
+		return err
+	}
+
+	return nil
 }

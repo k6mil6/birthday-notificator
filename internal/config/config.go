@@ -8,22 +8,31 @@ import (
 )
 
 type Config struct {
-	Env            string   `yml:"env" env-default:"local"`
-	DB             DBConfig `yml:"db" env-required:"true"`
-	HTTPPort       int      `yml:"http_port" env-default:"8080"`
-	MigrationsPath string   `yml:"migrations_path" env-default:"./migrations"`
-	JWT            JWT      `yml:"jwt" env-required:"true"`
+	Env            string        `yaml:"env" env-default:"local"`
+	DB             DBConfig      `yaml:"db" env-required:"true"`
+	HTTPPort       int           `yaml:"http_port" env-default:"8080"`
+	MigrationsPath string        `yaml:"migrations_path" env-default:"./migrations"`
+	JWT            JWT           `yaml:"jwt" env-required:"true"`
+	Email          Email         `yaml:"email" env-required:"true"`
+	ScanInterval   time.Duration `yaml:"scan_interval" env-default:"1m"`
 }
 
 type DBConfig struct {
-	PostgresDSN   string        `yml:"postgres_dsn" env-default:"postgres://postgres:postgres@localhost:5442/birthday_notificator_db?sslmode=disable"`
-	RetriesNumber int           `yml:"retries_number" env-default:"3"`
-	RetryCooldown time.Duration `yml:"retry_cooldown" env-default:"10s"`
+	PostgresDSN   string        `yaml:"postgres_dsn" env-default:"postgres://postgres:postgres@localhost:5442/birthday_notificator_db?sslmode=disable"` //nolint:lll
+	RetriesNumber int           `yaml:"retries_number" env-default:"3"`
+	RetryCooldown time.Duration `yaml:"retry_cooldown" env-default:"10s"`
 }
 
 type JWT struct {
-	Secret   string        `yml:"secret" env-required:"true"`
-	TokenTTL time.Duration `yml:"token_ttl" env-default:"1h"`
+	Secret   string        `yaml:"secret" env-required:"true"`
+	TokenTTL time.Duration `yaml:"token_ttl" env-default:"1h"`
+}
+
+type Email struct {
+	SenderAddress  string `yaml:"sender_address" env-required:"true"`
+	SenderPassword string `yaml:"sender_password" env-required:"true"`
+	SMTPAddress    string `yaml:"smtp_address" env-required:"true"`
+	SMTPPort       int    `yaml:"smtp_port" env-default:"587"`
 }
 
 func MustLoad() *Config {
@@ -63,7 +72,7 @@ func fetchConfigPath() string {
 	}
 
 	if res == "" {
-		res = "./config/config.yml" //default
+		res = "./config/config.yaml" //default
 	}
 
 	return res

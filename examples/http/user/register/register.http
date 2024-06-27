@@ -1,0 +1,13 @@
+POST /api/v1/user/register HTTP/1.1
+Host: localhost:8080
+Content-Type: application/json
+Content-Length: 114
+
+{
+    "email": "test@mail.ru",
+    "password": "password",
+    "name": "name",
+    "birthday": "09.05.2005"
+}
+
+

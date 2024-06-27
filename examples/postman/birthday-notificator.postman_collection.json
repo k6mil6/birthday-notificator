@@ -1,0 +1,921 @@
+{
+	"info": {
+		"_postman_id": "9a6cea2a-5eca-401d-ad2b-e3e7cd124f20",
+		"name": "birthday-notificator",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "29718593"
+	},
+	"item": [
+		{
+			"name": "register",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"test@mail.ru\",\r\n    \"password\": \"password\",\r\n    \"name\": \"John Doe\",\r\n    \"birthday\": \"26.06.2005\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/user/register",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"user",
+						"register"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "success register",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"test@mail.ru\",\r\n    \"password\": \"password\",\r\n    \"name\": \"name\",\r\n    \"birthday\": \"09.05.2005\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/user/register",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"user",
+								"register"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 26 Jun 2024 17:05:22 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "17"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"success\": true\n}"
+				},
+				{
+					"name": "error user already exists",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"test1@mail.ru\",\r\n    \"password\": \"password123142\",\r\n    \"name\": \"name\",\r\n    \"birthday\": \"09.05.2005\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/user/register",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"user",
+								"register"
+							]
+						}
+					},
+					"status": "Conflict",
+					"code": 409,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 26 Jun 2024 17:23:34 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "55"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"error\": {\n        \"code\": 409,\n        \"message\": \"user already exists\"\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"kamil_6@vk.com\",\r\n    \"password\": \"password\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/user/login",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"user",
+						"login"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "logged in successfully",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"test1@mail.ru\",\r\n    \"password\": \"password123142\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/user/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"user",
+								"login"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 26 Jun 2024 17:22:29 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "209"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"token\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3QxQG1haWwucnUiLCJleHAiOjE3MTk0MjYxNDksImlkIjoiNWE2ODBkZDEtMTEyMi00YzdlLWFjNGItNTIxYmZkNWJhMTE5In0.lz5xoBBDKZpqzBQgpszqTKxNtjdVejaz2CQ-LbWJqSw\"\n}"
+				},
+				{
+					"name": "invalid credentials",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"kamil_6@vk.com\",\r\n    \"password\": \"p1assword\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/user/login",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"user",
+								"login"
+							]
+						}
+					},
+					"status": "Unauthorized",
+					"code": 401,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Date",
+							"value": "Thu, 27 Jun 2024 15:57:05 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "55"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"error\": {\n        \"code\": 401,\n        \"message\": \"invalid credentials\"\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "get all users",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImthbWlsXzZAdmsuY29tIiwiZXhwIjoxNzE5NTA2NzAzLCJpZCI6IjEyNWFjMDc1LWNiMGQtNDQ5Ny1iODk2LTA3MGFjMTcxZTNlMSJ9.d0LnMjsspbb9GJZN2I0BdAZ5TMD0I1qwJsqIHR8wjF0",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/v1/user",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"user"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "get all users",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/user",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"user"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 26 Jun 2024 18:09:27 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "180"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"users\": [\n        {\n            \"id\": \"5a680dd1-1122-4c7e-ac4b-521bfd5ba119\",\n            \"name\": \"name\",\n            \"birthday\": \"09.05.2005\"\n        },\n        {\n            \"id\": \"3e5c3ed6-4cb3-48c4-b057-3f5f43d29f35\",\n            \"name\": \"name\",\n            \"birthday\": \"09.05.2005\"\n        }\n    ]\n}"
+				}
+			]
+		},
+		{
+			"name": "subscribe",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImthbWlsXzZAdmsuY29tIiwiZXhwIjoxNzE5NDk4NTk5LCJpZCI6IjEyNWFjMDc1LWNiMGQtNDQ5Ny1iODk2LTA3MGFjMTcxZTNlMSJ9.LedZ3VQ40otiuaMb3m660EZtn6uYiZypRNoMIIM4ayg",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"user_id\": \"d5f80a76-ada2-401a-a9df-29702d492e0a\",\r\n    \"notification_offset\": {\r\n        \"unit\": \"hour\",\r\n        \"value\": 7\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/user/subscribe",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"user",
+						"subscribe"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "already subscribed",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"user_id\": \"5a680dd1-1122-4c7e-ac4b-521bfd5ba119\",\r\n    \"notification_offset\": {\r\n        \"unit\": \"hour\",\r\n        \"value\": 2\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/user/subscribe",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"user",
+								"subscribe"
+							]
+						}
+					},
+					"status": "Conflict",
+					"code": 409,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 26 Jun 2024 18:38:45 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "59"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"error\": {\n        \"code\": 409,\n        \"message\": \"user already subscribed\"\n    }\n}"
+				},
+				{
+					"name": "subscribed successfully",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"user_id\": \"5a680dd1-1122-4c7e-ac4b-521bfd5ba119\",\r\n    \"notification_offset\": {\r\n        \"unit\": \"hour\",\r\n        \"value\": 2\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/user/subscribe",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"user",
+								"subscribe"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 26 Jun 2024 18:39:12 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "59"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"subscription_id\": \"c48f34b3-ab3d-4e87-be06-5576703957b4\"\n}"
+				}
+			]
+		},
+		{
+			"name": "unsubscribe",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImthbWlsXzZAdmsuY29tIiwiZXhwIjoxNzE5NTA3OTU3LCJpZCI6IjEyNWFjMDc1LWNiMGQtNDQ5Ny1iODk2LTA3MGFjMTcxZTNlMSJ9.caAy3YJisB4SyyJlqw2ejYuLsILez_oSPcP72J0HYyg",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"user_id\": \"5a680dd1-1122-4c7e-ac4b-521bfd5ba119\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/user/unsubscribe",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"user",
+						"unsubscribe"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "unsubscribed successfully",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"user_id\": \"5a680dd1-1122-4c7e-ac4b-521bfd5ba119\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/user/unsubscribe",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"user",
+								"unsubscribe"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 26 Jun 2024 18:45:12 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "17"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"success\": true\n}"
+				}
+			]
+		},
+		{
+			"name": "change email",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RAbWFpbC5ydSIsImV4cCI6MTcxOTQzMjQwNiwiaWQiOiIzZTVjM2VkNi00Y2IzLTQ4YzQtYjA1Ny0zZjVmNDNkMjlmMzUifQ.efZCCWekGsIbNKPxVjw497D0hnjWuowTvhKilpmOkdA",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"email\": \"test1@mail.ru\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/user/change/email",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"user",
+						"change",
+						"email"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "changed successfully",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"nottest@mail.ru\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/user/change/email",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"user",
+								"change",
+								"email"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 26 Jun 2024 19:07:33 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "17"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"success\": true\n}"
+				},
+				{
+					"name": "user with this email already exists",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"email\": \"test1@mail.ru\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/user/change/email",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"user",
+								"change",
+								"email"
+							]
+						}
+					},
+					"status": "Conflict",
+					"code": 409,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 26 Jun 2024 19:08:03 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "71"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"error\": {\n        \"code\": 409,\n        \"message\": \"user with this email already exists\"\n    }\n}"
+				}
+			]
+		},
+		{
+			"name": "get all user subscriptions",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RAbWFpbC5ydSIsImV4cCI6MTcxOTQzMjQwNiwiaWQiOiIzZTVjM2VkNi00Y2IzLTQ4YzQtYjA1Ny0zZjVmNDNkMjlmMzUifQ.efZCCWekGsIbNKPxVjw497D0hnjWuowTvhKilpmOkdA",
+							"type": "string"
+						}
+					]
+				},
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/v1/user/subscriptions",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"user",
+						"subscriptions"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "no subscriptions",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/user/subscriptions",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"user",
+								"subscriptions"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 26 Jun 2024 19:22:41 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "21"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"subscriptions\": []\n}"
+				},
+				{
+					"name": "all user subscriptions",
+					"originalRequest": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/api/v1/user/subscriptions",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"user",
+								"subscriptions"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 26 Jun 2024 19:23:11 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "221"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"subscriptions\": [\n        {\n            \"id\": \"b73de42a-43bc-4e83-8117-32516a10d44e\",\n            \"user_id\": \"3e5c3ed6-4cb3-48c4-b057-3f5f43d29f35\",\n            \"subscribed_at_user_id\": \"5a680dd1-1122-4c7e-ac4b-521bfd5ba119\",\n            \"notification_date\": \"2025-05-08T22:00:00Z\"\n        }\n    ]\n}"
+				}
+			]
+		},
+		{
+			"name": "change notification date",
+			"request": {
+				"auth": {
+					"type": "bearer",
+					"bearer": [
+						{
+							"key": "token",
+							"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RAbWFpbC5ydSIsImV4cCI6MTcxOTQzMjQwNiwiaWQiOiIzZTVjM2VkNi00Y2IzLTQ4YzQtYjA1Ny0zZjVmNDNkMjlmMzUifQ.efZCCWekGsIbNKPxVjw497D0hnjWuowTvhKilpmOkdA",
+							"type": "string"
+						}
+					]
+				},
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"subscription_id\": \"b73de42a-43bc-4e83-8117-32516a10d44e\",\r\n    \"notification_offset\": {\r\n        \"unit\": \"minute\",\r\n        \"value\": 40\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/v1/user/change/notification_date",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"v1",
+						"user",
+						"change",
+						"notification_date"
+					]
+				}
+			},
+			"response": [
+				{
+					"name": "changed successfully",
+					"originalRequest": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"subscription_id\": \"b73de42a-43bc-4e83-8117-32516a10d44e\",\r\n    \"notification_offset\": {\r\n        \"unit\": \"minute\",\r\n        \"value\": 40\r\n    }\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/api/v1/user/change/notification_date",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"api",
+								"v1",
+								"user",
+								"change",
+								"notification_date"
+							]
+						}
+					},
+					"status": "OK",
+					"code": 200,
+					"_postman_previewlanguage": "json",
+					"header": [
+						{
+							"key": "Content-Type",
+							"value": "application/json"
+						},
+						{
+							"key": "Date",
+							"value": "Wed, 26 Jun 2024 19:28:58 GMT"
+						},
+						{
+							"key": "Content-Length",
+							"value": "17"
+						}
+					],
+					"cookie": [],
+					"body": "{\n    \"success\": true\n}"
+				}
+			]
+		}
+	]
+}

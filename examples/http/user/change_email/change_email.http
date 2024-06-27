@@ -1,0 +1,9 @@
+POST /api/v1/user/change/email HTTP/1.1
+Host: localhost:8080
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InRlc3RAbWFpbC5ydSIsImV4cCI6MTcxOTQzMjQwNiwiaWQiOiIzZTVjM2VkNi00Y2IzLTQ4YzQtYjA1Ny0zZjVmNDNkMjlmMzUifQ.efZCCWekGsIbNKPxVjw497D0hnjWuowTvhKilpmOkdA
+Content-Length: 34
+
+{
+  "email": "test1@mail.ru"
+}

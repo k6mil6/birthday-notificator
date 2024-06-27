@@ -20,9 +20,9 @@ func main() {
 	defer cancel()
 
 	log.Info("connecting to db", slog.String("dsn", cfg.DB.PostgresDSN))
-	storages, err := postgres.NewStorages(ctx, log, cfg.DB.PostgresDSN, cfg.DB.RetriesNumber, cfg.DB.RetryCooldown)
+	storages, err := postgres.NewStorages(ctx, log, cfg)
 	if err != nil {
-		log.Error("failed to connect to database", "error", err)
+		log.Error("failed to connect to database", "error", err.Error())
 		return
 	}
 
@@ -30,11 +30,15 @@ func main() {
 
 	defer storages.Close()
 
-	application := app.New(ctx, log, storages, cfg.JWT.TokenTTL, cfg.JWT.Secret, cfg.HTTPPort)
+	application := app.New(ctx, log, storages, cfg)
 
 	go func() {
 		application.API.MustRun()
 	}()
 
+	log.Info("started server")
+
 	<-ctx.Done()
+
+	log.Info("shutting down")
 }
